@@ -118,6 +118,11 @@ WSGI_APPLICATION = "config.wsgi.application"
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
 
 if IS_HEROKU_APP:
+    DATABASE_URL = "postgresql://<postgresql>"
+else:
+    DATABASE_URL = "sqlite:///" + os.path.join(BASE_DIR, "db.sqlite3")
+
+if IS_HEROKU_APP:
     # In production on Heroku the database configuration is derived from the `DATABASE_URL`
     # environment variable by the dj-database-url package. `DATABASE_URL` will be set
     # automatically by Heroku when a database addon is attached to your Heroku app. See:
