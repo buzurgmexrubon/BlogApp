@@ -1,16 +1,19 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <title>Buzruk's Docs</title>
-  </head>
-  <body>
-    <header>
-        <a href="{% url 'home' %}">Bosh sahifa</a>
-        <a href="{% url 'about' %}">Sahifa haqida</a>
-        <a href="{% url 'privacy-policy' %}">Privacy Policy</a>
-    </header>
-
-    {% block content %}
-    {% endblock content %}
-  </body>
+    <head>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.11.2/css/all.css">
+        <title>{% block page_title %}{% endblock page_title %}</title>
+    </head>
+    <body class=" font-light">
+        {% include "partials/messages.html" %}
+        {% include "partials/header.html" %}
+        {% block contents %}  
+        {% endblock contents %}
+        {% include "partials/footer.html" %}
+    </body>
 </html>

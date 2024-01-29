@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+    {% block contents %}
+    <div class="px-20">
+        <div class="flex justify-between items-center border-b-2 px-3 mt-20 pb-2">
+            <div>
+                <span class="font-medium text-2xl">{{post.title}}</span>
+                <span class="text-lg">| By :<a href="{% url 'users:profile' post.author.pk %}" class="text-blue-400">{{post.author.first_name}}</a></span>
+            </div>
+            <span>{{post.created_string}}</span>
+        </div>
+        <div class="my-20 py-2 relative">
+
+            {% if post.author == user %}
+                <a href="{% url 'posts:edit' pk=post.pk %}">
+                    <span class="absolute block -mt-20 ml-3 py-1 px-2 font-medium text-lg border-2 rounded-lg border-yellow-400 bg-yellow-400 text-white">Edit</span>
+                </a>
+                <a href="{% url 'posts:delete' pk=post.pk %}">
+                    <span class="absolute block -mt-20 ml-20 py-1 px-2 font-medium text-lg border-2 rounded-lg border-red-600 bg-red-400 text-white">Delete</span>
+                </a>
+            {% endif %}
+
+            <div class="flex justify-center">
+                {% for photo in post.photos.all %}
+                    <img class="ml-2" width="200px" src="{{photo.file.url}}" />
+                {% endfor %}
+            </div>
+            <div class="text-center mt-5 px-20">
+                {{post.content}}
+            </div>
+        </div>
+        {% include 'comments/comment_list.html' with comments=post.post_comments.all post_pk=post.pk %}
+    </div>
+    {% endblock contents %}

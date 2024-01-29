@@ -53,31 +53,37 @@ if not IS_HEROKU_APP:
 if IS_HEROKU_APP:
     ALLOWED_HOSTS = ["*"]
 else:
-    ALLOWED_HOSTS = []
+    ALLOWED_HOSTS = ["localhost", "127.0.0.1"]
 
 
 # Application definition
 
-INSTALLED_APPS = [
-    # Use WhiteNoise's runserver implementation instead of the Django default, for dev-prod parity.
+DJANGO_APPS = [
     "whitenoise.runserver_nostatic",
-    # Uncomment this and the entry in `urls.py` if you wish to use the Django admin feature:
-    # https://docs.djangoproject.com/en/5.0/ref/contrib/admin/
     "django.contrib.admin",
     "django.contrib.auth",
     "django.contrib.contenttypes",
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
-    "pagesapp",
 ]
+
+PROJECT_APPS = [
+    "core.apps.CoreConfig",
+    "users.apps.UsersConfig",
+    "posts.apps.PostsConfig",
+    "comments.apps.CommentsConfig",
+]
+
+THIRD_APPS = [
+    "django_seed",
+]
+
+INSTALLED_APPS = DJANGO_APPS + PROJECT_APPS + THIRD_APPS
+
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
-    # Django doesn't support serving static assets in a production-ready way, so we use the
-    # excellent WhiteNoise package to do so instead. The WhiteNoise middleware must be listed
-    # after Django's `SecurityMiddleware` so that security redirects are still performed.
-    # See: https://whitenoise.readthedocs.io
     "whitenoise.middleware.WhiteNoiseMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
@@ -159,7 +165,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = "en-us"
 
-TIME_ZONE = "UTC"
+TIME_ZONE = "Asia/Tashkent"
 
 USE_I18N = True
 
@@ -169,8 +175,18 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.0/howto/static-files/
 
-STATIC_ROOT = BASE_DIR / "staticfiles"
 STATIC_URL = "static/"
+STATIC_ROOT = BASE_DIR / "staticfiles"
+STATICFILES_DIRS = [os.path.join(BASE_DIR, "static")]
+
+AUTH_USER_MODEL = "users.User"
+
+MEDIA_ROOT = os.path.join(BASE_DIR, "uploads")
+
+MEDIA_URL = "/media/"
+
+LOGIN_DIRECT_URL = "core"
+LOGOUT_DIRECT_URL = "core"
 
 STORAGES = {
     # Enable WhiteNoise's GZip and Brotli compression of static assets:

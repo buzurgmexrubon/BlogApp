@@ -8,8 +8,13 @@ django = "*"
 gunicorn = "*"
 dj-database-url = "*"
 whitenoise = "*"
+pillow = "*"
+django-seed = "*"
 
 [dev-packages]
 
 [requires]
 python_version = "3.11"
+
+[pipenv]
+allow_prereleases = true
